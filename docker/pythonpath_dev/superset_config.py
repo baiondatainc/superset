@@ -66,7 +66,7 @@ REDIS_PORT = os.getenv("REDIS_PORT", "6379")
 REDIS_CELERY_DB = os.getenv("REDIS_CELERY_DB", "0")
 REDIS_RESULTS_DB = os.getenv("REDIS_RESULTS_DB", "1")
 
-RESULTS_BACKEND = FileSystemCache("/app/superset_home/sqllab")
+RESULTS_BACKEND = FileSystemCache("/Users/sivakumar/work/POCs/malifa/superset/sqllab")
 
 CACHE_CONFIG = {
     "CACHE_TYPE": "RedisCache",
@@ -105,7 +105,14 @@ class CeleryConfig:
 
 CELERY_CONFIG = CeleryConfig
 
-FEATURE_FLAGS = {"ALERT_REPORTS": True, "DATASET_FOLDERS": True}
+FEATURE_FLAGS = {
+                "ALERT_REPORTS": True, 
+                "DATASET_FOLDERS": True, 
+                'ENABLE_TEMPLATE_PROCESSING': True,
+                'DASHBOARD_NATIVE_FILTERS': True,}
+
+print("<<<< SUPERSET CONFIG LOADING >>>>")
+
 ALERT_REPORTS_NOTIFICATION_DRY_RUN = True
 WEBDRIVER_BASEURL = f"http://superset_app{os.environ.get('SUPERSET_APP_ROOT', '/')}/"  # When using docker compose baseurl should be http://superset_nginx{ENV{BASEPATH}}/  # noqa: E501
 # The base URL for the email report hyperlinks.

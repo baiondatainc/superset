@@ -34,6 +34,12 @@ GREEN='\033[0;32m'
 RED='\033[0;31m'
 RESET='\033[0m'
 
+# Force a reliable mirror and ignore corrupted cache
+sed -i 's|deb.debian.org|ftp.us.debian.org|g' /etc/apt/sources.list.d/debian.sources || true
+apt-get clean
+apt-get update -o Acquire::CompressionTypes::Order::=gz
+
+
 # Install packages with clean-up
 echo -e "${GREEN}Updating package lists...${RESET}"
 apt-get update -qq

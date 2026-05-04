@@ -16,12 +16,21 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+/**
+ * Licensed to the Apache Software Foundation (ASF)
+ */
+
 import {
   isFeatureEnabled,
   FeatureFlag,
   Preset,
   VizType,
 } from '@superset-ui/core';
+
+// ✅ ADD THIS IMPORT
+import TimelineChartPlugin from 'plugins/plugin-chart-timeline';
+import EchartsKPIPlugin from 'plugins/plugin-chart-echarts-kpi';
+
 import CalendarChartPlugin from '@superset-ui/legacy-plugin-chart-calendar';
 import ChordChartPlugin from '@superset-ui/legacy-plugin-chart-chord';
 import CountryMapChartPlugin from '@superset-ui/legacy-plugin-chart-country-map';
@@ -33,15 +42,18 @@ import RoseChartPlugin from '@superset-ui/legacy-plugin-chart-rose';
 import TableChartPlugin from '@superset-ui/plugin-chart-table';
 import { WordCloudChartPlugin } from '@superset-ui/plugin-chart-word-cloud';
 import WorldMapChartPlugin from '@superset-ui/legacy-plugin-chart-world-map';
+
 import {
   BubbleChartPlugin,
   BulletChartPlugin,
   CompareChartPlugin,
   TimePivotChartPlugin,
 } from '@superset-ui/legacy-preset-chart-nvd3';
+
 import { DeckGLChartPreset } from '@superset-ui/preset-chart-deckgl';
 import ScatterMapChartPlugin from '@superset-ui/plugin-chart-point-cluster-map';
 import { CartodiagramPlugin } from '@superset-ui/plugin-chart-cartodiagram';
+
 import {
   BigNumberChartPlugin,
   BigNumberTotalChartPlugin,
@@ -70,6 +82,7 @@ import {
   EchartsHeatmapChartPlugin,
   EchartsGanttChartPlugin,
 } from '@superset-ui/plugin-chart-echarts';
+
 import {
   SelectFilterPlugin,
   RangeFilterPlugin,
@@ -77,14 +90,17 @@ import {
   TimeColumnFilterPlugin,
   TimeGrainFilterPlugin,
 } from 'src/filters/components';
+
 import {
   ChartCustomizationTimeGrainPlugin,
   ChartCustomizationDynamicGroupBy,
   ChartCustomizationTimeColumnPlugin,
   DeckglLayerVisibilityCustomizationPlugin,
 } from 'src/chartCustomizations/components';
+
 import { PivotTableChartPlugin as PivotTableChartPluginV2 } from '@superset-ui/plugin-chart-pivot-table';
 import { HandlebarsChartPlugin } from '@superset-ui/plugin-chart-handlebars';
+
 import { ChartCustomizationPlugins, FilterPlugins } from 'src/constants';
 import AgGridTableChartPlugin from '@superset-ui/plugin-chart-ag-grid-table';
 import TimeTableChartPlugin from '../TimeTable';
@@ -113,6 +129,11 @@ export default class MainPreset extends Preset {
         new BigNumberTotalChartPlugin().configure({
           key: VizType.BigNumberTotal,
         }),
+
+        // 🔥 ADD YOUR PLUGIN HERE
+        new TimelineChartPlugin().configure({ key: 'timeline' }),
+        new EchartsKPIPlugin().configure({ key: 'echarts_kpi' }),
+
         new EchartsBoxPlotChartPlugin().configure({ key: VizType.BoxPlot }),
         new BubbleChartPlugin().configure({ key: VizType.LegacyBubble }),
         new BulletChartPlugin().configure({ key: VizType.Bullet }),
@@ -145,18 +166,10 @@ export default class MainPreset extends Preset {
         new TimeTableChartPlugin().configure({ key: VizType.TimeTable }),
         new WordCloudChartPlugin().configure({ key: VizType.WordCloud }),
         new WorldMapChartPlugin().configure({ key: VizType.WorldMap }),
-        new EchartsAreaChartPlugin().configure({
-          key: VizType.Area,
-        }),
-        new EchartsTimeseriesChartPlugin().configure({
-          key: VizType.Timeseries,
-        }),
-        new EchartsTimeseriesBarChartPlugin().configure({
-          key: VizType.Bar,
-        }),
-        new EchartsTimeseriesLineChartPlugin().configure({
-          key: VizType.Line,
-        }),
+        new EchartsAreaChartPlugin().configure({ key: VizType.Area }),
+        new EchartsTimeseriesChartPlugin().configure({ key: VizType.Timeseries }),
+        new EchartsTimeseriesBarChartPlugin().configure({ key: VizType.Bar }),
+        new EchartsTimeseriesLineChartPlugin().configure({ key: VizType.Line }),
         new EchartsTimeseriesSmoothLineChartPlugin().configure({
           key: VizType.SmoothLine,
         }),
@@ -171,6 +184,7 @@ export default class MainPreset extends Preset {
         }),
         new EchartsHeatmapChartPlugin().configure({ key: VizType.Heatmap }),
         new EchartsHistogramChartPlugin().configure({ key: VizType.Histogram }),
+
         new SelectFilterPlugin().configure({ key: FilterPlugins.Select }),
         new RangeFilterPlugin().configure({ key: FilterPlugins.Range }),
         new TimeFilterPlugin().configure({ key: FilterPlugins.Time }),
@@ -180,6 +194,7 @@ export default class MainPreset extends Preset {
         new TimeGrainFilterPlugin().configure({
           key: FilterPlugins.TimeGrain,
         }),
+
         new ChartCustomizationTimeGrainPlugin().configure({
           key: ChartCustomizationPlugins.TimeGrain,
         }),
@@ -192,10 +207,12 @@ export default class MainPreset extends Preset {
         new DeckglLayerVisibilityCustomizationPlugin().configure({
           key: ChartCustomizationPlugins.DeckglLayerVisibility,
         }),
+
         new EchartsTreeChartPlugin().configure({ key: VizType.Tree }),
         new EchartsSunburstChartPlugin().configure({ key: VizType.Sunburst }),
         new HandlebarsChartPlugin().configure({ key: VizType.Handlebars }),
         new EchartsBubbleChartPlugin().configure({ key: VizType.Bubble }),
+
         new CartodiagramPlugin({
           defaultLayers: [
             {
@@ -205,10 +222,11 @@ export default class MainPreset extends Preset {
               layersParam: 'OSM-WMS',
               title: 'OpenStreetMap',
               attribution:
-                '© Map data from <a href="openstreetmap.org/copyright">OpenStreetMap</a>. Service provided by <a href="https://www.terrestris.de">terrestris GmbH & Co. KG</a>',
+                '© Map data from <a href="openstreetmap.org/copyright">OpenStreetMap</a>',
             },
           ],
         }).configure({ key: VizType.Cartodiagram }),
+
         ...experimentalPlugins,
         ...agGridTablePlugin,
       ],

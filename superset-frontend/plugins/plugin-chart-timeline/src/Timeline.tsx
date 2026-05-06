@@ -42,6 +42,10 @@ export default function Timeline({
     'all' | 'high' | 'low'
   >('all');
 
+  // 🔥 Hover Journey
+  const [hoveredJourney, setHoveredJourney] =
+    useState<number | null>(null);
+
   const [scrollPercent, setScrollPercent] =
     useState(0);
 
@@ -233,8 +237,7 @@ export default function Timeline({
                 marginBottom: 4,
               }}
             >
-              {heading ||
-                'Heading'}
+              {heading || 'Heading'}
             </div>
 
             <div
@@ -243,8 +246,7 @@ export default function Timeline({
                 color: '#64748b',
               }}
             >
-              {description ||
-                'Description'}
+              {description || 'Description'}
             </div>
           </div>
 
@@ -257,39 +259,9 @@ export default function Timeline({
               flexWrap: 'wrap',
             }}
           >
-            {(
-              ['all', 'high', 'low'] as const
-            ).map(f => (
-              <button
-                key={f}
-                onClick={() => setFilter(f)}
-                style={{
-                  padding: '6px 14px',
-                  borderRadius: 20,
-                  border: 'none',
-                  cursor: 'pointer',
-                  fontSize: 12,
-                  fontWeight: 600,
-
-                  background:
-                    filter === f
-                      ? '#3b82f6'
-                      : '#e5e7eb',
-
-                  color:
-                    filter === f
-                      ? '#fff'
-                      : '#000',
-                }}
-              >
-                {f.toUpperCase()}
-              </button>
-            ))}
-
             {/* Summary */}
             <div
               style={{
-                marginLeft: 'auto',
                 fontSize: 12,
                 color: '#475569',
                 fontWeight: 600,
@@ -301,6 +273,51 @@ export default function Timeline({
               {journeys.length}
               {'  '}| Conversion:{' '}
               {summary?.avgConversion || 0}%
+            </div>
+
+            {/* Right Side Filters */}
+            <div
+              style={{
+                marginLeft: 'auto',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 8,
+                flexWrap: 'wrap',
+              }}
+            >
+              {(
+                ['all', 'high', 'low'] as const
+              ).map(f => (
+                <button
+                  key={f}
+                  onClick={() => setFilter(f)}
+                  style={{
+                    padding: '6px 14px',
+                    borderRadius: 20,
+
+                    border:
+                      filter === f
+                        ? '1px solid #6ee7b7'
+                        : '1px solid #d1d5db',
+
+                    cursor: 'pointer',
+                    fontSize: 12,
+                    fontWeight: 600,
+
+                    background:
+                      filter === f
+                        ? '#dcfce7'
+                        : '#ffffff',
+
+                    color:
+                      filter === f
+                        ? '#047857'
+                        : '#475569',
+                  }}
+                >
+                  {f.toUpperCase()}
+                </button>
+              ))}
             </div>
           </div>
         </div>
@@ -322,14 +339,34 @@ export default function Timeline({
         {filtered.map((j, index) => (
           <div
             key={index}
+            onMouseEnter={() =>
+              setHoveredJourney(index)
+            }
+            onMouseLeave={() =>
+              setHoveredJourney(null)
+            }
             style={{
               borderRadius: 14,
               padding: 14,
               marginBottom: 12,
-              background: '#ffffff',
-              border: '1px solid #e5e7eb',
+
+              background:
+                hoveredJourney === index
+                  ? '#f0fdf4'
+                  : '#ffffff',
+
+              border:
+                hoveredJourney === index
+                  ? '1px solid #6ee7b7'
+                  : '1px solid #e5e7eb',
+
               boxShadow:
                 '0 1px 2px rgba(0,0,0,0.04)',
+
+              cursor: 'pointer',
+
+              transition:
+                'all 0.2s ease',
             }}
           >
             {/* Steps */}

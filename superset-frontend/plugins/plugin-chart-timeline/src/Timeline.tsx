@@ -46,9 +46,6 @@ export default function Timeline({
   const [hoveredJourney, setHoveredJourney] =
     useState<number | null>(null);
 
-  const [scrollPercent, setScrollPercent] =
-    useState(0);
-
   const [isAtTop, setIsAtTop] =
     useState(true);
 
@@ -81,13 +78,6 @@ export default function Timeline({
 
     const maxScroll =
       scrollHeight - clientHeight;
-
-    const pct =
-      maxScroll > 0
-        ? scrollTop / maxScroll
-        : 0;
-
-    setScrollPercent(Math.round(pct * 100));
 
     setIsAtTop(scrollTop <= 1);
 
@@ -521,17 +511,6 @@ export default function Timeline({
           >
             ↑
           </button>
-        </div>
-
-        {/* Percent */}
-        <div
-          style={{
-            fontSize: 10,
-            color: '#6b7280',
-            fontWeight: 700,
-          }}
-        >
-          {scrollPercent}%
         </div>
 
         {/* Bottom */}

@@ -1,11 +1,54 @@
-import { ControlPanelConfig } from '@superset-ui/chart-controls';
+import { ControlPanelConfig, t } from '@superset-ui/chart-controls';
 
 const controlPanel: ControlPanelConfig = {
   controlPanelSections: [
     {
       label: 'Timeline Settings',
       expanded: true,
+
       controlSetRows: [
+        // 🔥 Dynamic Heading
+        [
+          {
+            name: 'heading',
+            config: {
+              type: 'TextControl',
+              label: 'Heading',
+              default: 'Heading',
+              renderTrigger: true,
+              description: 'Main dashboard heading',
+            },
+          },
+        ],
+
+        // 🔥 Dynamic Description
+        [
+          {
+            name: 'description',
+            config: {
+              type: 'TextControl',
+              label: 'Description',
+              default: 'Description',
+              renderTrigger: true,
+              description: 'Top panel description',
+            },
+          },
+        ],
+
+        // 🔥 Dynamic Side Text
+        [
+          {
+            name: 'side_text',
+            config: {
+              type: 'TextControl',
+              label: 'Side Text',
+              default: 'Details panel',
+              renderTrigger: true,
+              description: 'Additional top panel text',
+            },
+          },
+        ],
+
         // ⏱ Time column
         [
           {
@@ -90,7 +133,7 @@ const controlPanel: ControlPanelConfig = {
           },
         ],
 
-        // 🔥 OPTIONAL (for dynamic journeys)
+        // 🔥 Session grouping
         [
           {
             name: 'session_column',
